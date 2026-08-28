@@ -1,0 +1,15 @@
+# RustyBGP in-process libFuzzer target (cargo-fuzz / libfuzzer-sys). Feeds raw
+# bytes to rustybgp-packet's PeerCodec::parse_message — the BGP wire-message
+# decoder an untrusted peer drives (OPEN / UPDATE / NOTIFICATION / KEEPALIVE /
+# ROUTE-REFRESH) — then runs the RFC 7606 validate_message normalization path.
+project: savantenvs/rustybgp
+target: fuzz_parse
+image: savantenvs/rustybgp:latest
+
+cmds:
+  - cmd: /mayhem/fuzz_parse
+    libfuzzer: true
+
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/fuzz_parse/testsuite

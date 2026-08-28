@@ -1,0 +1,5 @@
+# Per-Dockerfile ignore for `docker build -f mayhem/Dockerfile .` (BuildKit gives
+# this precedence over the repo-root .dockerignore, which excludes .git/ — the
+# grader/PATCH tier needs FULL .git history COPYd into the image, so we KEEP .git
+# here and only drop build artifacts).
+**/target
