@@ -1,0 +1,20 @@
+# Known-answer-test (KAT) oracle probe for the RustyBGP Mayhem integration.
+# Standalone crate under mayhem/ — the empty-ish [workspace] table keeps it OUT of
+# the upstream root workspace's resolution (we never touch upstream's Cargo.toml/
+# Cargo.lock). It only CALLS the unmodified rustybgp-packet library via a path dep.
+[package]
+name = "rustybgp-kat"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[[bin]]
+name = "rustybgp-kat"
+path = "src/main.rs"
+
+[dependencies.rustybgp-packet]
+path = "../../packet"
+
+# Keep this crate out of the upstream root workspace's resolution.
+[workspace]
+members = ["."]

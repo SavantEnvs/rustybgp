@@ -1,0 +1,29 @@
+# Additive cargo-fuzz crate for the RustyBGP Mayhem integration. Standalone crate
+# under mayhem/ — the empty-ish [workspace] table keeps it OUT of the upstream root
+# workspace's resolution (we never touch upstream's Cargo.toml). It depends on the
+# unmodified rustybgp-packet crate (the BGP wire-message parser) via a path dep.
+[package]
+name = "rustybgp-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.rustybgp-packet]
+path = "../../packet"
+
+# Keep this crate out of the upstream root workspace's resolution.
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "fuzz_parse"
+path = "fuzz_targets/fuzz_parse.rs"
+test = false
+doc = false
+bench = false
